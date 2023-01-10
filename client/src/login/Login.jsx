@@ -24,16 +24,17 @@ const Login = ({ setAuth }) => {
       const body = { email, password };
 
       const response = await axios.post(LOGIN_URL, JSON.stringify(body), {
+        withCredentials: true,
+        credentials: "include",
         headers: {
+          Accept: "applicaiton/json",
           "Content-Type": "application/json",
         },
       });
-      // console.log(JSON.stringify(response?.data));
+
       const parseRes = response.data;
 
       if (parseRes.token) {
-        // localstorage
-        localStorage.setItem("token", parseRes.token);
         setAuth(true);
       } else {
         setAuth(false);

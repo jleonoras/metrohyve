@@ -5,7 +5,7 @@ import axios from "../api/axios";
 const UPDATE_USER_URL = "/api/v1/user/update";
 const USER_DATA_URL = "api/v1/profile";
 
-const UpdateProfile = ({ setAuth }) => {
+const UpdateProfile = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -16,8 +16,10 @@ const UpdateProfile = ({ setAuth }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(USER_DATA_URL, {
+          withCredentials: true,
+          credentials: "include",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "applicaiton/json",
             "Content-Type": "application/json",
           },
         });
@@ -28,7 +30,7 @@ const UpdateProfile = ({ setAuth }) => {
         setLastname(parseRes.lname);
         setEmail(parseRes.email);
       } catch (error) {
-        console.log(error);
+        console.log(error.response.data);
       }
     };
     fetchData();
@@ -45,8 +47,10 @@ const UpdateProfile = ({ setAuth }) => {
 
     try {
       const updateProfile = await axios.put(UPDATE_USER_URL, body, {
+        withCredentials: true,
+        credentials: "include",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Accept: "applicaiton/json",
           "Content-Type": "application/json",
         },
       });
